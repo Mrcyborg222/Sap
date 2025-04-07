@@ -6,8 +6,8 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 
 # Configuration Twilio
-TWILIO_ACCOUNT_SID = 'ton_account_sid'
-TWILIO_AUTH_TOKEN = 'ton_auth_token'
+TWILIO_ACCOUNT_SID = 'AC6d563bde944e95a18bdf4a3ad25df38f'
+TWILIO_AUTH_TOKEN = '8872842e467a0450de2fe660d8b66697'
 WHATSAPP_NUMBER = 'whatsapp:+221788327327'  # Ton numéro WhatsApp Twilio
 
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
@@ -39,7 +39,7 @@ while done is False:
 message = client.messages.create(
     media_url='https://ton_site_ou_serveur/file_to_upload.jpg',
     from_=WHATSAPP_NUMBER,
-    to='whatsapp:+1NUMERO_DESTINATAIRE'
+    to='whatsapp:+221788327327'
 )
 
 print(message.sid)
