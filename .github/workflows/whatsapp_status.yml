@@ -1,0 +1,45 @@
+import os
+from twilio.rest import Client
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseDownload
+
+# Configuration Twilio
+TWILIO_ACCOUNT_SID = 'ton_account_sid'
+TWILIO_AUTH_TOKEN = 'ton_auth_token'
+WHATSAPP_NUMBER = 'whatsapp:+1XXXXXXXXXX'  # Ton numéro WhatsApp Twilio
+
+client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+# Configuration Google Drive
+SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
+creds = None
+
+# Charge les credentials de Google
+if os.path.exists('token.json'):
+    creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+else:
+    flow = InstalledAppFlow.from_client_secrets_file(
+        'credentials.json', SCOPES)
+    creds = flow.run_local_server(port=0)
+
+service = build('drive', 'v3', credentials=creds)
+
+# Télécharge un fichier depuis Google Drive
+file_id = 'ID_DE_TON_FICHIER'
+request = service.files().get_media(fileId=file_id)
+fh = open('file_to_upload.jpg', 'wb')
+downloader = MediaIoBaseDownload(fh, request)
+done = False
+while done is False:
+    status, done = downloader.next_chunk()
+
+# Publier le fichier sur WhatsApp
+message = client.messages.create(
+    media_url='https://ton_site_ou_serveur/file_to_upload.jpg',
+    from_=WHATSAPP_NUMBER,
+    to='whatsapp:+1NUMERO_DESTINATAIRE'
+)
+
+print(message.sid)
