@@ -8,7 +8,7 @@ from googleapiclient.http import MediaIoBaseDownload
 # Configuration Twilio
 TWILIO_ACCOUNT_SID = 'ton_account_sid'
 TWILIO_AUTH_TOKEN = 'ton_auth_token'
-WHATSAPP_NUMBER = 'whatsapp:+1XXXXXXXXXX'  # Ton numéro WhatsApp Twilio
+WHATSAPP_NUMBER = 'whatsapp:+12318358048'  # Ton numéro WhatsApp Twilio
 
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
@@ -27,7 +27,7 @@ else:
 service = build('drive', 'v3', credentials=creds)
 
 # Télécharge un fichier depuis Google Drive
-file_id = 'ID_DE_TON_FICHIER'
+file_id = '12h790ShuM2bFPSy9UTw1iofC4JVXSzm7'
 request = service.files().get_media(fileId=file_id)
 fh = open('file_to_upload.jpg', 'wb')
 downloader = MediaIoBaseDownload(fh, request)
